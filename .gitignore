@@ -20,3 +20,11 @@ fmlversion.properties
 fml_marker.cfg
 fml_at.cfg
 deobfuscation_data-1.6.4.lzma
+/bin
+/build
+/libs
+.classpath
+.settings
+.project
+.gradle
+/run
