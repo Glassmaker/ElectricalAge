@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-1.9-r44-custom-1"
+version = "1.7.10-1.9-r44-custom-2"
 group= "mods.eln" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ElectricalAge"
 
 minecraft {
-    version = "1.7.2-10.12.2.1125"
+    version = "1.7.10-10.13.2.1240"
     runDir = "run"
 }
 
