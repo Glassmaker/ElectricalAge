@@ -2,13 +2,14 @@
  * Copyright (c) 2011-2014, SpaceToad and the BuildCraft Team
  * http://www.mod-buildcraft.com
  *
- * BuildCraft is distributed under the terms of the Minecraft Mod Public
- * License 1.0, or MMPL. Please check the contents of the license located in
- * http://www.mod-buildcraft.com/MMPL-1.0.txt
+ * The BuildCraft API is distributed under the terms of the MIT License.
+ * Please check the contents of the license, which should be located
+ * as "LICENSE.API" in the BuildCraft source code distribution.
  */
 package buildcraft.api.blueprints;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import net.minecraft.entity.Entity;
@@ -19,9 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
-
 import net.minecraftforge.common.util.Constants;
-
 import buildcraft.api.core.Position;
 
 public class SchematicEntity extends Schematic {
@@ -44,10 +43,8 @@ public class SchematicEntity extends Schematic {
 	public ItemStack[] storedRequirements = new ItemStack[0];
 
 	@Override
-	public void writeRequirementsToWorld(IBuilderContext context, LinkedList<ItemStack> requirements) {
-		for (ItemStack s : storedRequirements) {
-			requirements.add(s);
-		}
+	public void getRequirementsForPlacement(IBuilderContext context, LinkedList<ItemStack> requirements) {
+		Collections.addAll(requirements, storedRequirements);
 	}
 
 	public void writeToWorld(IBuilderContext context) {
@@ -114,10 +111,8 @@ public class SchematicEntity extends Schematic {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, MappingRegistry registry) {
-		super.writeToNBT(nbt, registry);
-
-		NBTTagList nbttaglist = entityNBT.getTagList("Pos", 6);
+	public void writeSchematicToNBT(NBTTagCompound nbt, MappingRegistry registry) {
+		super.writeSchematicToNBT(nbt, registry);
 
 		nbt.setInteger("entityId", registry.getIdForEntity(entity));
 		nbt.setTag("entity", entityNBT);
@@ -135,8 +130,8 @@ public class SchematicEntity extends Schematic {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt, MappingRegistry registry) {
-		super.readFromNBT(nbt, registry);
+	public void readSchematicFromNBT(NBTTagCompound nbt, MappingRegistry registry) {
+		super.readSchematicFromNBT(nbt, registry);
 
 		entityNBT = nbt.getCompoundTag("entity");
 
@@ -214,4 +209,8 @@ public class SchematicEntity extends Schematic {
 		return false;
 	}
 
+	@Override
+	public int buildTime() {
+		return 5;
+	}
 }

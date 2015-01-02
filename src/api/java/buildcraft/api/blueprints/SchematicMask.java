@@ -2,9 +2,9 @@
  * Copyright (c) 2011-2014, SpaceToad and the BuildCraft Team
  * http://www.mod-buildcraft.com
  *
- * BuildCraft is distributed under the terms of the Minecraft Mod Public
- * License 1.0, or MMPL. Please check the contents of the license located in
- * http://www.mod-buildcraft.com/MMPL-1.0.txt
+ * The BuildCraft API is distributed under the terms of the MIT License.
+ * Please check the contents of the license, which should be located
+ * as "LICENSE.API" in the BuildCraft source code distribution.
  */
 package buildcraft.api.blueprints;
 
@@ -14,7 +14,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldServer;
-
 import buildcraft.api.core.BuildCraftAPI;
 
 public class SchematicMask extends SchematicBlockBase {
@@ -30,7 +29,7 @@ public class SchematicMask extends SchematicBlockBase {
 	}
 
 	@Override
-	public void writeToWorld(IBuilderContext context, int x, int y, int z, LinkedList<ItemStack> stacks) {
+	public void placeInWorld(IBuilderContext context, int x, int y, int z, LinkedList<ItemStack> stacks) {
 		if (isConcrete) {
 			if (stacks.size() == 0 || !BuildCraftAPI.isSoftBlock(context.world(), x, y, z)) {
 				return;
@@ -60,12 +59,12 @@ public class SchematicMask extends SchematicBlockBase {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt, MappingRegistry registry) {
+	public void writeSchematicToNBT(NBTTagCompound nbt, MappingRegistry registry) {
 		nbt.setBoolean("isConcrete", isConcrete);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt,	MappingRegistry registry) {
+	public void readSchematicFromNBT(NBTTagCompound nbt,	MappingRegistry registry) {
 		isConcrete = nbt.getBoolean("isConcrete");
 	}
 }

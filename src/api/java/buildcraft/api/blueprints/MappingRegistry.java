@@ -2,15 +2,16 @@
  * Copyright (c) 2011-2014, SpaceToad and the BuildCraft Team
  * http://www.mod-buildcraft.com
  *
- * BuildCraft is distributed under the terms of the Minecraft Mod Public
- * License 1.0, or MMPL. Please check the contents of the license located in
- * http://www.mod-buildcraft.com/MMPL-1.0.txt
+ * The BuildCraft API is distributed under the terms of the MIT License.
+ * Please check the contents of the license, which should be located
+ * as "LICENSE.API" in the BuildCraft source code distribution.
  */
 package buildcraft.api.blueprints;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -19,9 +20,7 @@ import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagShort;
-
 import net.minecraftforge.common.util.Constants;
-
 import buildcraft.api.core.BCLog;
 
 public class MappingRegistry {
@@ -278,14 +277,18 @@ public class MappingRegistry {
 		for (int i = 0; i < blocksMapping.tagCount(); ++i) {
 			NBTTagCompound sub = blocksMapping.getCompoundTagAt(i);
 			String name = sub.getString("name");
-			Block b = (Block) Block.blockRegistry.getObject(name);
-
+			Block b = null;
+			
+			if (Block.blockRegistry.containsKey(name)) {
+				b = (Block) Block.blockRegistry.getObject(name);
+			}
+			
 			if (b != null) {
 				registerBlock(b);
 			} else {
 				// Keeping the order correct
 				idToBlock.add(null);
-				BCLog.logger.log(Level.WARNING, "Can't load block " + name);
+				BCLog.logger.log(Level.WARN, "Can't load block " + name);
 			}
 		}
 
@@ -295,14 +298,18 @@ public class MappingRegistry {
 		for (int i = 0; i < itemsMapping.tagCount(); ++i) {
 			NBTTagCompound sub = itemsMapping.getCompoundTagAt(i);
 			String name = sub.getString("name");
-			Item item = (Item) Item.itemRegistry.getObject(name);
-
+			Item item = null;
+			
+			if (Item.itemRegistry.containsKey(name)) {
+				item = (Item) Item.itemRegistry.getObject(name);
+			}
+			
 			if (item != null) {
 				registerItem(item);
 			} else {
 				// Keeping the order correct
 				idToItem.add(null);
-				BCLog.logger.log(Level.WARNING, "Can't load item " + name);
+				BCLog.logger.log(Level.WARN, "Can't load item " + name);
 			}
 		}
 
@@ -325,7 +332,7 @@ public class MappingRegistry {
 			} else {
 				// Keeping the order correct
 				idToEntity.add(null);
-				BCLog.logger.log(Level.WARNING, "Can't load entity " + name);
+				BCLog.logger.log(Level.WARN, "Can't load entity " + name);
 			}
 		}
 	}
